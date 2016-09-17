@@ -16,8 +16,8 @@ void loop() {
   //changeChannel(26);
   //exitPitmode();
   //enterPitmode();
-  //changePower(1);
-  selectFrequency(5800);
+  changePower(0);
+  //selectFrequency(5800);
 }
 
 uint8_t crc8(const uint8_t *data, uint8_t len) {
