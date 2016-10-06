@@ -15,8 +15,8 @@ void loop() {
   //changeChannel(26);
   //exitPitmode();
   //enterPitmode();
-  changePower(0);
-  //selectFrequency(5800);
+  changePower(3);
+  selectFrequency(5300);
 }
 
 uint8_t crc8(const uint8_t *data, uint8_t len) {
@@ -46,6 +46,7 @@ int changeChannel(int channel) { //1-40 by the manual (expects 0-39)
   int crcbyte = {crc8(crcCheck, 5)};
   byte changechannelcommand[9] = {0x00, first, second, command, frameLength, setChannel, crcbyte, 0x00};
   mySerial.write(changechannelcommand, 9);
+  delay(150);
 }
 
 int changePower(int level){ // expects 1-4 for 25, 200, 500, 800
@@ -56,6 +57,7 @@ int changePower(int level){ // expects 1-4 for 25, 200, 500, 800
   int crcbyte = {crc8(crcCheck, 5)};
   byte changechannelcommand[8] = {0x00, first, second, command, frameLength, power, crcbyte, 0x00};
   mySerial.write(changechannelcommand, 8);
+  delay(150);
 }
 
 int enterPitmode(){ //sets frequency to 5600 and enters 1 microwatt power mode
@@ -68,6 +70,7 @@ int enterPitmode(){ //sets frequency to 5600 and enters 1 microwatt power mode
   int crcbyte = {crc8(crcCheck, 5)};
   byte enterPitmodeCommand [8] = {0x00, first, second, command, frameLength, pitmodeID, crcbyte, 0x00};
   mySerial.write(enterPitmodeCommand, 8);
+  delay(150);
 }
 
 int exitPitmode(){ //exits 1 microwatt power mode, sets power to 25mw
@@ -79,6 +82,7 @@ int exitPitmode(){ //exits 1 microwatt power mode, sets power to 25mw
   byte exitPitmodeCommand [8] = {0x00, first, second, command, frameLength, pitmodeID, crcbyte, 0x00};
   mySerial.write(exitPitmodeCommand, 8);
   changePower(0);
+  delay(150);
 }
 
 int selectFrequency(int frequency){ // expects frequency
@@ -92,9 +96,11 @@ int selectFrequency(int frequency){ // expects frequency
   int crcbyte = {crc8(crcCheck, 6)};
   byte changechannelcommand[10] = {0x00, first, second, command, frameLength, setFrequency[0], setFrequency[1], crcbyte, 0x00};
   mySerial.write(changechannelcommand, 9);
+  delay(150);
 }
 
 int checkStatus(){ //fires check status, not observing response... yet.
   byte statusreq[7] = {0x00, first, second, 0x03, 0x00, 0x9F, 0x00}; //manual hex values to request status
   mySerial.write(statusreq, 7);
+  delay(150);
 }
